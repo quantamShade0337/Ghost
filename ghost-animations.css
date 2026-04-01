@@ -1,0 +1,57 @@
+.ghost-happy-bounce { animation: bounce 1s; }
+
+.ghost-excited-wiggle { animation: wiggle 1s; }
+
+.ghost-focused-steady { animation: steady 1s; }
+
+.ghost-thinking-tilt { animation: tilt 1s; }
+
+.ghost-celebrating-jump { animation: jump 1s; }
+
+.ghost-sleepy-float { animation: float 1s; }
+
+.ghost-cautious-worry { animation: worry 1s; }
+
+.ghost-sad-sag { animation: sag 1s; }
+
+/* Special Animations */
+
+.ghost-spin { animation: spin 1s; }
+
+.ghost-shake { animation: shake 1s; }
+
+.ghost-pop { animation: pop 1s; }
+
+.ghost-fade { animation: fade 1s; }
+
+.ghost-pulse { animation: pulse 1s; }
+
+.ghost-glow { animation: glow 1s; }
+
+@keyframes bounce { /* Add keyframe for bounce */ }
+
+@keyframes wiggle { /* Add keyframe for wiggle */ }
+
+@keyframes steady { /* Add keyframe for steady */ }
+
+@keyframes tilt { /* Add keyframe for tilt */ }
+
+@keyframes jump { /* Add keyframe for jump */ }
+
+@keyframes float { /* Add keyframe for float */ }
+
+@keyframes worry { /* Add keyframe for worry */ }
+
+@keyframes sag { /* Add keyframe for sag */ }
+
+@keyframes spin { /* Add keyframe for spin */ }
+
+@keyframes shake { /* Add keyframe for shake */ }
+
+@keyframes pop { /* Add keyframe for pop */ }
+
+@keyframes fade { /* Add keyframe for fade */ }
+
+@keyframes pulse { /* Add keyframe for pulse */ }
+
+@keyframes glow { /* Add keyframe for glow */ }
