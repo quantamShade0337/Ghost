@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SwiftRoom — collaborative Swift playground">
+  <title>SwiftRoom</title>
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/room.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     LOADING SCREEN
+══════════════════════════════════════════ -->
+<div id="loading-screen" role="status" aria-label="Loading SwiftRoom">
+  <div class="load-orbit">
+    <div class="orbit-ring"></div>
+    <div class="orbit-ring"></div>
+    <div class="orbit-ring"></div>
+    <div class="load-ghost" id="load-ghost"></div>
+  </div>
+  <span class="load-label">warming up</span>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TRANSITION OVERLAY
+══════════════════════════════════════════ -->
+<div id="transition-overlay" aria-hidden="true">
+  <!-- ghost injected by JS -->
+</div>
+
+<!-- ══════════════════════════════════════════
+     TOAST CONTAINER
+══════════════════════════════════════════ -->
+<div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+<!-- ══════════════════════════════════════════
+     PROJECTS SHELL
+══════════════════════════════════════════ -->
+<div id="projects-shell" class="app-shell hidden">
+
+  <!-- Sidebar -->
+  <nav class="sidebar" aria-label="Main navigation">
+    <div class="sidebar-logo">
+      <div class="logo-icon" aria-hidden="true">
+        <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+          <path d="M3.5 8.5h7M12 5.5l3 3-3 3" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-text">SwiftRoom</div>
+        <div class="logo-version">beta</div>
+      </div>
+    </div>
+
+    <div class="nav-section-label">Workspace</div>
+    <div class="nav-item active" role="button" tabindex="0" aria-current="page">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="5.5" height="5.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
+        <rect x="7.5" y="1" width="5.5" height="5.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
+        <rect x="1" y="7.5" width="5.5" height="5.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
+        <rect x="7.5" y="7.5" width="5.5" height="5.5" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
+      </svg>
+      All projects
+      <span class="nav-count">5</span>
+    </div>
+    <div class="nav-item" role="button" tabindex="0">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <circle cx="7" cy="5" r="2.5" stroke="currentColor" stroke-width="1.2"/>
+        <path d="M2 12c0-2.8 2.2-4 5-4s5 1.2 5 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      Shared with me
+      <span class="nav-count">2</span>
+    </div>
+    <div class="nav-item" role="button" tabindex="0">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M7 1.5L8.8 5.2l4.2.6-3 2.9.7 4.1L7 10.7l-3.7 2.1.7-4.1-3-2.9 4.2-.6z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+      </svg>
+      Starred
+    </div>
+
+    <div class="nav-section-label">Discover</div>
+    <div class="nav-item" role="button" tabindex="0">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <rect x="1" y="2" width="12" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/>
+        <path d="M5 7h4M7 5v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      Templates
+    </div>
+    <div class="nav-item" role="button" tabindex="0">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M6 2H3a1 1 0 00-1 1v8a1 1 0 001 1h8a1 1 0 001-1V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M8 2h4v4M12 2L6.5 7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Community
+    </div>
+
+    <div class="nav-section-label">Settings</div>
+    <div class="nav-item" role="button" tabindex="0">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.2"/>
+        <circle cx="7" cy="7" r="2" fill="currentColor" opacity="0.4"/>
+      </svg>
+      Preferences
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="user-chip" role="button" tabindex="0" aria-label="User account">
+        <div class="avatar" style="background:linear-gradient(135deg,#7c3aed,#ec4899)" aria-hidden="true">E</div>
+        <div class="user-info">
+          <div class="uname">Ethan</div>
+          <div class="uhandle">@ethan · Pro</div>
+        </div>
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="margin-left:auto;color:var(--text3)" aria-hidden="true">
+          <path d="M5 3.5l3.5 3L5 9.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main area -->
+  <div class="main-area">
+    <div class="main-topbar">
+      <div class="search-wrap">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+          <circle cx="5.5" cy="5.5" r="4" stroke="currentColor" stroke-width="1.3"/>
+          <path d="M10 10l2 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+        <input
+          type="search"
+          class="input search-input"
+          id="proj-search"
+          placeholder="Search projects..."
+          aria-label="Search projects"
+          autocomplete="off"
+        >
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-ghost" id="btn-join-room" aria-label="Join a room">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+            <path d="M9 2H4a2 2 0 00-2 2v6a2 2 0 002 2h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            <path d="M8 5l3.5 1.5L8 8M11.5 6.5H5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Join room
+        </button>
+        <button class="btn btn-primary" id="btn-new-project" aria-label="Create new project">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M6 1v10M1 6h10" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+          New project
+        </button>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Your projects</div>
+          <div class="section-sub" id="section-sub">5 projects · last active 2 min ago</div>
+        </div>
+        <div class="view-toggle" role="group" aria-label="View style">
+          <div class="view-btn active tippy" data-tip="Grid" role="button" tabindex="0" aria-label="Grid view">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+              <rect x="1" y="1" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.1"/>
+              <rect x="7.5" y="1" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.1"/>
+              <rect x="1" y="7.5" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.1"/>
+              <rect x="7.5" y="7.5" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.1"/>
+            </svg>
+          </div>
+          <div class="view-btn tippy" data-tip="List" role="button" tabindex="0" aria-label="List view">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+              <path d="M1.5 3.5h10M1.5 6.5h10M1.5 9.5h10" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="projects-grid" id="proj-grid" role="list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     ROOM SHELL
+══════════════════════════════════════════ -->
+<div id="room-shell" class="hidden">
+<div id="room-view">
+
+  <!-- Room topbar -->
+  <div class="room-topbar">
+    <button class="back-btn tippy" data-tip="Back to projects" aria-label="Back to projects" onclick="RoomView.close()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M9 2.5L4.5 7 9 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="room-title-group">
+      <div
+        class="room-name"
+        id="room-name"
+        contenteditable="true"
+        spellcheck="false"
+        role="textbox"
+        aria-label="Project name"
+      >ContentView</div>
+      <span class="room-ext">.swift</span>
+    </div>
+
+    <div class="room-id-chip" id="room-id-chip" role="button" tabindex="0" aria-label="Room ID — click to copy">
+      room-7f3a
+    </div>
+
+    <div class="topbar-spacer"></div>
+
+    <div class="presence-group" id="presence-stack" aria-label="Collaborators"></div>
+
+    <div style="width:10px"></div>
+
+    <button
+      class="run-button tippy"
+      id="run-btn"
+      data-tip="⌘R"
+      aria-label="Run project"
+      onclick="RoomView.run()"
+    >
+      <div class="run-icon" aria-hidden="true"></div>
+      <span class="run-btn-text">Run</span>
+      <span class="run-kbd" aria-hidden="true">⌘R</span>
+    </button>
+  </div>
+
+  <!-- Room body -->
+  <div class="room-body">
+
+    <!-- File sidebar -->
+    <div class="file-sidebar" aria-label="Files">
+      <div class="file-sidebar-header">
+        <span class="file-sidebar-label">Files</span>
+        <button class="file-add-btn" id="file-add-btn" aria-label="Add file" title="Add file">+</button>
+      </div>
+      <div class="file-list" id="file-list" role="list"></div>
+    </div>
+
+    <!-- Editor area -->
+    <div class="editor-area">
+
+      <!-- Tabs -->
+      <div class="tabs-bar" id="tabs-bar" role="tablist" aria-label="Open files"></div>
+
+      <!-- Split -->
+      <div class="editor-split">
+
+        <!-- Code panel -->
+        <div class="code-panel" id="code-panel">
+          <div class="panel-header">
+            <span class="panel-label">Editor</span>
+            <span class="unsaved-indicator tippy" data-tip="Unsaved changes" aria-label="Unsaved changes"></span>
+            <div class="panel-actions">
+              <button class="icon-btn tippy" data-tip="Format (⌘⇧F)" aria-label="Format code">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M1 3h10M1 6h6M1 9h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+              </button>
+              <button class="icon-btn tippy" data-tip="Minimap" aria-label="Toggle minimap">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <rect x="1" y="1" width="4" height="10" rx="1" stroke="currentColor" stroke-width="1.1"/>
+                  <rect x="7" y="1" width="4" height="10" rx="1" stroke="currentColor" stroke-width="1.1"/>
+                </svg>
+              </button>
+              <button class="icon-btn tippy" data-tip="Wrap lines" aria-label="Toggle line wrap">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M1 3h10M1 6h7a2 2 0 010 4H5M5 8l-2 2 2 2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="code-editor-wrap" id="code-editor-wrap">
+            <div class="line-numbers" id="line-numbers" aria-hidden="true"></div>
+            <div
+              class="code-input"
+              id="code-input"
+              contenteditable="true"
+              spellcheck="false"
+              role="textbox"
+              aria-multiline="true"
+              aria-label="Code editor"
+              onkeydown="RoomView.handleCodeKey(event)"
+              oninput="RoomView.updateLineNumbers()"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Preview panel -->
+        <div class="preview-panel">
+          <div class="panel-header">
+            <span class="panel-label">Preview</span>
+            <div class="panel-actions">
+              <button class="icon-btn tippy" data-tip="Refresh" aria-label="Refresh preview" onclick="RoomView.run()">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M10.5 6a4.5 4.5 0 1 1-.7-2.4M10.5 1.5V4H8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <button class="icon-btn tippy" data-tip="Light mode" aria-label="Toggle device appearance">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <circle cx="6" cy="6" r="2.5" stroke="currentColor" stroke-width="1.1"/>
+                  <path d="M6 1v1M6 10v1M1 6h1M10 6h1M2.5 2.5l.7.7M8.8 8.8l.7.7M2.5 9.5l.7-.7M8.8 3.2l.7-.7" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+                </svg>
+              </button>
+              <button class="icon-btn tippy" data-tip="Fullscreen" aria-label="Fullscreen preview">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M1 4V1h3M8 1h3v3M1 8v3h3M11 8v3H8" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="preview-content" id="preview-content" aria-live="polite" aria-label="Preview"></div>
+        </div>
+
+      </div><!-- /editor-split -->
+
+      <!-- Console -->
+      <div class="console-panel collapsed" id="console-panel">
+        <div class="console-header" onclick="RoomView.toggleConsole()" role="button" tabindex="0" aria-label="Toggle console" aria-expanded="false">
+          <span class="console-label">Console</span>
+          <span class="console-badge idle" id="console-badge">ready</span>
+          <button class="icon-btn tippy" style="margin-left:8px" data-tip="Clear" aria-label="Clear console" onclick="event.stopPropagation();document.getElementById('console-body').innerHTML=''">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true">
+              <path d="M1 1l9 9M10 1l-9 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <span class="console-toggle-icon" aria-hidden="true">▲</span>
+        </div>
+        <div class="console-body" id="console-body" aria-live="polite" aria-label="Console output"></div>
+      </div>
+
+    </div><!-- /editor-area -->
+  </div><!-- /room-body -->
+
+</div>
+</div><!-- /room-shell -->
+
+<!-- ══════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════ -->
+<script src="js/state.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/projects.js"></script>
+<script src="js/room.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
